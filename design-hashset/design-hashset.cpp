@@ -1,23 +1,40 @@
 class MyHashSet {
-    vector<int> v;
+   
 public:
     MyHashSet() {
-        int siz  = 1e6+1;
-        v.resize(siz);
-    }
-    
-    void add(int key) {
-        v[key] = 1;
         
     }
     
+    void add(int key) {
+        int x = key%100;
+        if(!contains(key))
+        {
+            arr[x].push_back(key);
+        }
+    }
+    
     void remove(int key) {
-        v[key] = 0;
+        auto it = find(arr[hkey(key)].begin(),arr[hkey(key)].end(),key);
+        if(it!=arr[hkey(key)].end())
+       {
+           arr[hkey(key)].erase(it);
+       }
     }
     
     bool contains(int key) {
-        return v[key];
+        auto it = find(arr[hkey(key)].begin(),arr[hkey(key)].end(),key);
+        if(it!=arr[hkey(key)].end())
+       {
+           return true;
+       }
+        return false;
     }
+    int hkey(int x)
+    {
+        return x%100;
+    }
+    private:
+        vector<int>arr[100];
 };
 
 /**
