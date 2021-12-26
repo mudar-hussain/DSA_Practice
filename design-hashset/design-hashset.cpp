@@ -7,8 +7,7 @@ public:
     
     void add(int key) {
         int x = key%100;
-        if(!contains(key))
-        {
+        if(!contains(key)){
             arr[x].push_back(key);
         }
     }
