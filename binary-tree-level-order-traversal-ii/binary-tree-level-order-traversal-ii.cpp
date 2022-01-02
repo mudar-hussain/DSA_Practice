@@ -26,10 +26,10 @@ public:
                 if(temp->left) q.push(temp->left);
                 if(temp->right) q.push(temp->right);
             }
-            ans.insert(ans.begin()+0,v);
-            //ans.push_back(v);
-            
+            //ans.insert(ans.begin()+0,v);
+            ans.push_back(v);
         }
+        reverse(ans.begin(),ans.end());
         return ans;
     }
 };
