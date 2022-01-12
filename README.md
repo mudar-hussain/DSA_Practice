@@ -8,3 +8,5 @@ Problems Solved: [![](https://tokei.rs/b1/github/mudar-hussain/DSA_Practice?cate
 Lines of Code: [![](https://tokei.rs/b1/github/mudar-hussain/DSA_Practice?category=code)](https://github.com/mudar-hussain/DSA_Practice) <br />
 ==========================
 
+![](https://img.shields.io/github/directory-file-count/mudar-hussain/DSA_Practice/main?extension=cpp&label=C%2B%2B&style=plastic)
+
