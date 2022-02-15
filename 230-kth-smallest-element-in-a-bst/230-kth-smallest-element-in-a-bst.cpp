@@ -10,19 +10,25 @@
  * };
  */
 class Solution {
+    int ans = -1, count = 0;
 public:
-     vector<int> ans;
-    void solve(TreeNode *root, int k){
-        if(ans.size()>=k) return;
-        if(!root) return;
-        solve(root->left, k);
-        ans.push_back(root->val);
-        solve(root->right, k);
-    }
+    //  vector<int> ans;
+    // void solve(TreeNode *root, int k){
+    //     if(ans.size()>=k) return;
+    //     if(!root) return;
+    //     solve(root->left, k);
+    //     ans.push_back(root->val);
+    //     solve(root->right, k);
+    // }
     int kthSmallest(TreeNode* root, int k) {
-        if(!root) return -1;
-        solve(root, k);
-        if(ans.size()<k) return -1;
-        return ans[k-1];
+        if(!root ) return ans;
+        kthSmallest(root->left,k);
+        count++;
+        if(count==k) {
+            ans = root->val;
+            return ans;
+        }
+        kthSmallest(root->right,k);
+        return ans;
     }
 };
