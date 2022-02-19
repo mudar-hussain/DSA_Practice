@@ -11,39 +11,52 @@
  */
 class Solution {
 public:
-    
-    vector<int> v;
-    TreeNode * predessor(TreeNode *root){
-        if(!root) return NULL;
-        TreeNode *cur = root->left;
-        while(cur->right != NULL && cur->right != root){
-            cur = cur->right;
+    // void inorder(TreeNode* root, vector<int>& v){
+    //     if(!root) return;
+    //     inorder(root->left,v);
+    //     v.push_back(root->val);
+    //     inorder(root->right,v);
+    // }
+    void pushLeft(TreeNode *root, stack<TreeNode*> &s){
+        while(root){
+            s.push(root);
+            root = root->left;
         }
-        return cur;
-    }
-    void morris(TreeNode *current){
-        if(!current) return;
-        while(current != NULL){
-            if(!current->left){
-                v.push_back(current->val);
-                current = current->right;
-            }else{
-                TreeNode *pre = predessor(current);
-                if(pre->right == NULL){
-                    pre->right = current;
-                    current = current->left;
-                }
-                else{
-                    v.push_back(current->val);
-                    pre->right = NULL;
-                    current = current->right;
-                }
-            }
-        }
+            
     }
     vector<int> inorderTraversal(TreeNode* root) {
-        if(!root) return v;
-        morris(root);
+        vector<int> v;
+        stack<TreeNode*> s;
+        pushLeft(root, s);
+        // inorder(root,v);
+        while(!s.empty()){
+            TreeNode *temp = s.top();
+            s.pop();
+            v.push_back(temp->val);
+            pushLeft(temp->right, s);
+        }
         return v;
     }
+    
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
