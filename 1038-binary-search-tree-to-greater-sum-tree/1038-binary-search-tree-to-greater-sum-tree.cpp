@@ -11,29 +11,37 @@
  */
 class Solution {
 public:
+//     int solve(TreeNode *root, int sum){
+//         if(!root) return sum;
+//         if(root->left && root->right){
+//             sum = root->val + solve(root->right,sum);
+//             root->val =  sum;
+//             sum = solve(root->left,sum);
+            
+//         }else if(root->left){
+//             sum += root->val;
+//             root->val = sum;
+//             sum = solve(root->left,sum);
+            
+            
+//         }else if(root->right){
+//             sum = root->val + solve(root->right,sum);
+//             root->val = sum; 
+            
+//         }else {
+//             sum += root->val;
+//             root->val = sum;
+//         }
+        
+//         return sum;
+//     }
     int solve(TreeNode *root, int sum){
         if(!root) return sum;
-        if(root->left && root->right){
-            sum = root->val + solve(root->right,sum);
-            root->val =  sum;
-            sum = solve(root->left,sum);
-            
-        }else if(root->left){
-            sum += root->val;
-            root->val = sum;
-            sum = solve(root->left,sum);
-            
-            
-        }else if(root->right){
-            sum = root->val + solve(root->right,sum);
-            root->val = sum; 
-            
-        }else {
-            sum += root->val;
-            root->val = sum;
-        }
-        
+        sum = root->val + solve(root->right, sum);
+        root->val = sum;
+        sum = solve(root->left, sum);
         return sum;
+            
     }
     TreeNode* bstToGst(TreeNode* root) {
         if(!root || (!root->left && !root->right)) return root;
