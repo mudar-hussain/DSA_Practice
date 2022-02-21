@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int findParent(int n, vector<int> parent){
+    int findParent(int n, vector<int> &parent){
         if(n == parent[n] || parent[n] == -1) return n;
         return findParent(parent[n], parent);
                                  
@@ -15,9 +15,9 @@ public:
             int p2 = findParent(n2, parent);
             if(p1 == p2){
                 return node;
-            }else{
-                parent[p1] = p2;
             }
+            parent[p1] = p2;
+            
         }
         return {};
     }
