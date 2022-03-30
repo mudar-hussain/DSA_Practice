@@ -10,9 +10,9 @@ public:
         int ans = 1,curr,prev;
         for(int i = 0; i<n; i++){
             curr = 1;
-            if(mp.find(nums[i]-1) == mp.end()){
+            if(!mp.count(nums[i]-1)){
                 prev = nums[i]+1;
-                while(mp.find(prev) != mp.end()){
+                while(mp.count(prev)){
                     curr++;
                     prev++;
                 }
