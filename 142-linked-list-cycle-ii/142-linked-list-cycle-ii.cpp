@@ -8,31 +8,41 @@
  */
 class Solution {
 public:
-    ListNode *detectCycle(ListNode *head) {
-        if(!head || !head->next) return NULL;
-        unordered_set<ListNode *> ht;
-        ListNode *fast = new ListNode();
-        fast = head;
-        // ListNode *slow = fast;
-        while(fast){
-            if(ht.find(fast)!=ht.end()){
-                return fast;
-            }
-            ht.insert(fast);
-            fast = fast->next;
-        }
-        return NULL;
-    }
+    //2nd Approach
     // ListNode *detectCycle(ListNode *head) {
     //     if(!head || !head->next) return NULL;
+    //     unordered_set<ListNode *> ht;
     //     ListNode *fast = new ListNode();
-    //     fast->next = head;
-    //     ListNode *slow = fast;
-    //     while(fast && fast->next){
-    //         if(fast==slow){
-    //             fast = head;
+    //     fast = head;
+    //     while(fast){
+    //         if(ht.find(fast)!=ht.end()){
+    //             return fast;
     //         }
+    //         ht.insert(fast);
+    //         fast = fast->next;
     //     }
     //     return NULL;
     // }
+    
+    //1st Approach
+    
+    ListNode *detectCycle(ListNode *head) {
+        // if(!head || !head->next) return NULL;
+        ListNode *fast = head;
+        ListNode *slow = head;
+        bool flag = false;
+        while(fast && fast->next){
+            
+            slow = slow->next;
+            if(flag) fast = fast->next;
+            else fast = fast->next->next;
+            if(flag && fast == slow) return fast;
+            else if(fast==slow){
+                fast = head;
+                flag = true;
+                if(fast == slow) return fast;
+            }
+        }
+        return NULL;
+    }
 };
