@@ -7,11 +7,12 @@ public:
                 ans.push_back(curr);
             return;
         }
-        if(i < 0) return ;
+        if(i < 0 || target < 0) return ;
         solve(nums, i-1, target, curr, ans);
         if(nums[i]<=target){
             curr.push_back(nums[i]);
             solve(nums, i, target-nums[i], curr, ans);
+            curr.pop_back();
         }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
