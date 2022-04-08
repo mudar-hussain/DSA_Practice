@@ -1,22 +1,18 @@
 class Solution {
 public:
-    
+    //1st Approach (BackTracking/DP)
     bool solve(string s, vector<string>& wordDict, vector<int> &dp, int index){
         
         if(index == s.length()) return true;
         if(dp[index] != -1) return dp[index];
         
+        string ss = "";
          for(int i = index; i<s.length(); i++){
-             string ss = s.substr(index, i-index+1);
+             ss += s[i];
              
-             for(auto wd: wordDict){
-                if(wd == ss){
-                    if(solve(s, wordDict, dp, i+1)) 
-                        return dp[index] = true;
-                    else 
-                        break;
-                }
-             }
+             if(find(wordDict.begin(), wordDict.end(), ss) != wordDict.end())
+                if(solve(s, wordDict, dp, i+1)) 
+                    return dp[index] = true;
              
          }
         return dp[index] = false;
