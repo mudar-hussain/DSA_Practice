@@ -1,15 +1,14 @@
 class LRUCache {
-    struct  Node{
-        Node *prev, *next;
+    struct Node{
         int key, value;
+        Node *prev, *next;
         
-        Node(int k, int v){key = k; value = v;}
+        Node(int k, int v){key = k; value = v;};
     };
     Node *head = new Node(0,0);
     Node *tail = new Node(0,0);
-    map<int, Node*> map;
+    unordered_map<int,Node*> map;
     int capacity;
-    
 public:
     LRUCache(int cap) {
         capacity = cap;
@@ -20,44 +19,45 @@ public:
     int get(int key) {
         if(map.find(key) != map.end()){
             Node *data = map[key];
+            
             remove(data);
             insert(data);
             
             return data->value;
-        }else return -1;
+        }else {
+            return -1;
+        }
     }
     
     void put(int key, int value) {
         if(map.find(key) != map.end()){
+            
             remove(map[key]);
-        }
-        
-        
-        if(capacity == map.size()){
+            
+        }else if(capacity == map.size()){
+            
+            //remove LRU 
             remove(tail->prev);
         }
         
         insert(new Node(key, value));
+        
+        
     }
-    
     void remove(Node *node){
         map.erase(node->key);
-        node->prev->next = node->next;     //  1  ==  2  ==  3
-        node->next->prev = node->prev;     // prev = node = next
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
     }
-    
     void insert(Node *node){
         map[node->key] = node;
         Node *headNext = head->next;
-        
         head->next = node;
         node->prev = head;
         
         node->next = headNext;
         headNext->prev = node;
     }
-    
-        
 };
 
 /**
