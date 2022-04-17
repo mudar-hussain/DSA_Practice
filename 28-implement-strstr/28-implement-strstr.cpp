@@ -11,7 +11,7 @@ public:
         if(n2 == 0) return 0;
         if(n1<n2) return -1;
         
-        for(int i = 0; i<n1; i++){
+        for(int i = 0; i<=n1-n2; i++){
             if(haystack[i] == needle[0]){
                 int x = i, y = 0;
                 while(x<n1 && y<n2){
