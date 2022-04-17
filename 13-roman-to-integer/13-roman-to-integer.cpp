@@ -13,9 +13,12 @@ public:
         um['M'] = 1000;
         
         int ans = um[s[n-1]];
+        int curr, prev = ans;
         for(int i = n-2; i>=0; i--){
-            if(um[s[i]]>=um[s[i+1]]) ans += um[s[i]];
-            else ans -= um[s[i]];
+            curr = um[s[i]];
+            if(curr>=prev) ans += curr;
+            else ans -= curr;
+            prev = curr;
         }
         return ans;
     }
