@@ -12,13 +12,12 @@ public:
     {'M', 1000}
 };
         
-        int ans = um[s[n-1]];
-        int curr, prev = ans;
-        for(int i = n-2; i>=0; i--){
-            curr = um[s[i]];
-            if(curr>=prev) ans += curr;
-            else ans -= curr;
-            prev = curr;
+        int ans = 0;
+        for(int i = 0; i<n; i++){
+            if(um[s[i+1]]<=um[s[i]])
+                ans += um[s[i]];
+            else 
+                ans -= um[s[i]];
         }
         return ans;
     }
