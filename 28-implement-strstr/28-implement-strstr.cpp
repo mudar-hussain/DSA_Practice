@@ -4,39 +4,30 @@ class Solution {
         
 public:
     //3rd Approach
-    inline int getHash(char ch) {
-        return ch - 'a' + 1;
-    }
     int strStr(string haystack, string needle) {
-        if (needle.length() == 0) return 0;
-        if (needle.length() > haystack.length()) return -1;
-        int hash = 0, rollingHash = 0;
-        for (char ch: needle) hash += getHash(ch);
-        for (int i = 0; i < needle.length(); i++) {
-            rollingHash += getHash(haystack[i]);
+        long long ha=0, hb=0;
+        for (int i = 0; i < needle.size(); i++){
+            hb = hb + (needle[i] - 'A' + 1);
         }
-        if (rollingHash == hash) {
-            bool match = true;
-            for (int j = 0; j < needle.length(); j++) {
-                if (haystack[j] != needle[j]) {
-                    match = false;
-                    break;
-                }
-            }
-            if (match) return 0;
-        }
-        for (int i = 1; i <= haystack.length() - needle.length(); i++) {
-            rollingHash += getHash(haystack[i + needle.length() - 1]) - getHash(haystack[i - 1]);
-            if (rollingHash == hash) {
-                bool match = true;
-                for (int j = 0; j < needle.length(); j++) {
-                    if (haystack[i + j] != needle[j]) {
-                        match = false;
-                        break;
+        int l=0, r = 0;
+        while (r < haystack.size()){
+            ha = ha + (haystack[r] - 'A' + 1);
+            if(r-l+1==needle.size()){
+                if(ha==hb){
+                    int i = l;
+                    bool match = true;
+                    for(auto x: needle){
+                        if(x != haystack[i])
+                            match = false;
+                        i++;
                     }
+                    if(match) return l;
                 }
-                if (match) return i;
+                        
+                ha = ha - (haystack[l] - 'A' + 1);
+                l++;
             }
+        r++;
         }
         return -1;
     }
