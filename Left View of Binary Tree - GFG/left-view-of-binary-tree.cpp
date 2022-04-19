@@ -131,29 +131,44 @@ vector<int> leftView(Node *root)
 {
    // Your code here
    vector<int> ans;
-        if(!root) return ans;
-        bool isFirst = true;
-        queue<Node*> q;
-        q.push(root);
-        q.push(NULL);
-        while(!q.empty()){
+   if(root == NULL) return ans;
+   queue<Node *> q;
+   q.push(root);
+   while(!q.empty()){
+       int n = q.size();
+       ans.push_back(q.front()->data);
+       
+       while(n--){
             Node *temp = q.front();
             q.pop();
-            if(!temp){
-                if(q.empty()) break;
-                else {
-                    q.push(NULL);
-                    isFirst = true;
-                }
-            }else{
-                if(isFirst){
-                    ans.push_back(temp->data);
-                    isFirst = false;
-                }
             if(temp->left) q.push(temp->left);
             if(temp->right) q.push(temp->right);
-            }
-        }
-
-        return ans;
+            
+       }
+   }
+   return ans;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
