@@ -11,52 +11,70 @@
  */
 class Solution {
 public:
-    // void inorder(TreeNode* root, vector<int>& v){
-    //     if(!root) return;
-    //     inorder(root->left,v);
-    //     v.push_back(root->val);
-    //     inorder(root->right,v);
-    // }
-    void pushLeft(TreeNode *root, stack<TreeNode*> &s){
-        while(root){
-            s.push(root);
-            root = root->left;
-        }
-            
-    }
+    //Morris Traversal
+    
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> v;
-        stack<TreeNode*> s;
-        pushLeft(root, s);
-        // inorder(root,v);
-        while(!s.empty()){
-            TreeNode *temp = s.top();
-            s.pop();
-            v.push_back(temp->val);
-            pushLeft(temp->right, s);
+        vector<int> ans;
+        TreeNode *cur = root;
+        while(cur != NULL){
+            if(cur->left == NULL){
+                ans.push_back(cur->val);
+                cur = cur->right;
+            }else{
+                TreeNode *prev = cur->left;
+                while(prev->right && prev->right != cur){
+                    prev = prev->right;
+                }
+                
+                if(prev->right == NULL){
+                    prev->right = cur;
+                    cur = cur->left;
+                }else if(prev->right == cur){
+                    prev->right = NULL;
+                    ans.push_back(cur->val);
+                    cur = cur->right;
+                }
+            }
         }
-        return v;
+        return ans;
     }
     
+    //2nd Approach (BFS)
+    
+//     void pushLeft(TreeNode *root, stack<TreeNode*>& q){
+//         while(root){
+//             q.push(root);
+//             root = root->left;
+//         }
+//     }
+//     vector<int> inorderTraversal(TreeNode* root) {
+//         vector<int> ans;
+//         if(root == NULL) return ans;
+//         stack<TreeNode*> q;
+        
+//         pushLeft(root, q);
+        
+//         while(!q.empty()){
+//             TreeNode *temp = q.top();
+//             q.pop();
+//             ans.push_back(temp->val);
+//             pushLeft(temp->right, q);
+//         }
+//         return ans;
+//     }
+    
+    //1st Approach (DFS)
+    
+    // void inorder(TreeNode* root, vector<int>& ans){
+    //     if(root == NULL) return;
+    //     inorder(root->left, ans);
+    //     ans.push_back(root->val);
+    //     inorder(root->right, ans);
+    // }
+    // vector<int> inorderTraversal(TreeNode* root) {
+    //     if(root == NULL) return {};
+    //     vector<int> ans;
+    //     inorder(root, ans);
+    //     return ans;
+    // }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
