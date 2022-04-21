@@ -132,6 +132,10 @@ public:
     {
         //Your code here
         if(!root) return ans;
+        if(!root->left && !root->right){
+            ans.push_back(root->data);
+            return ans;
+        }
         ans.push_back(root->data);
         leftBoundry(root->left);
         leafBoundry(root);
