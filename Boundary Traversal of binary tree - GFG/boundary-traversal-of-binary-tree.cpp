@@ -105,43 +105,47 @@ struct Node
 
 class Solution {
 public:
-        vector <int> ans;
-    void leftBoundry(Node* root){
-        if(!root || (!root->left && !root->right)) return;
+    void leftBoundry(Node *root, vector<int> &ans){
+        if(root == NULL) return;
+        if(root->left == NULL && root->right == NULL) return;
         ans.push_back(root->data);
-        if(root->left) leftBoundry(root->left);
-        else if(root->right) leftBoundry(root->right);
-        
+        if(root->left) leftBoundry(root->left, ans);
+        else if(root->right) leftBoundry(root->right, ans);
     }
-    void rightBoundry(Node* root){
-        if(!root || (!root->left && !root->right)) return;
-        if(root->right) rightBoundry(root->right);
-        else if(root->left) rightBoundry(root->left);
-        ans.push_back(root->data);
-        
-    }
-    void leafBoundry(Node* root){
-        if(!root) return;
-        if(!root->left && !root->right) {
+    
+    void leafBoundry(Node *root, vector<int> &ans){
+        if(root == NULL) return;
+        if(root->left == NULL && root->right == NULL) {
             ans.push_back(root->data);
+            return;
         }
-        leafBoundry(root->left);
-        leafBoundry(root->right);
+        leafBoundry(root->left, ans);
+        leafBoundry(root->right, ans);
     }
+    
+    void rightBoundry(Node *root, vector<int> &ans){
+        if(root == NULL) return;
+        if(root->left == NULL && root->right == NULL) return;
+        if(root->right) rightBoundry(root->right, ans);
+        else if(root->left) rightBoundry(root->left, ans);
+        ans.push_back(root->data);
+    }
+    
     vector <int> boundary(Node *root)
     {
         //Your code here
-        if(!root) return ans;
-        if(!root->left && !root->right){
-            ans.push_back(root->data);
+        vector<int> ans;
+        if(root == NULL) return ans;
+        ans.push_back(root->data);
+        if(root->left == NULL && root->right == NULL){
             return ans;
         }
-        ans.push_back(root->data);
-        leftBoundry(root->left);
-        leafBoundry(root);
-        rightBoundry(root->right);
+        leftBoundry(root->left, ans);
+        // ans.pop_back();
+        leafBoundry(root, ans);
+        // ans.pop_back();
+        rightBoundry(root->right, ans);
         return ans;
-        
     }
 };
 
