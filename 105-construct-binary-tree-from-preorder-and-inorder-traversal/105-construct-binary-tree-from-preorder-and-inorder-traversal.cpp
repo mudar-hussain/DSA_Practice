@@ -11,25 +11,28 @@
  */
 class Solution {
 public:
-    unordered_map<int,int> um;
-    TreeNode* solve(vector<int>& preorder, vector<int>& inorder,int& start, int is, int ie){
-        if(is>ie) return NULL;
-        int mid = um[preorder[start]];
-        TreeNode *root = new TreeNode(preorder[start]);
-        start++;
-        root->left = solve(preorder,inorder,start,is,mid-1);
-        root->right = solve(preorder,inorder,start,mid+1,ie);
-        return root;
-    }
+        unordered_map<int, int> um;
+    
+        TreeNode* solve(vector<int>& preorder, vector<int>& inorder, int &index, int lb, int ub) {
+            if(lb>ub) return NULL;
+            TreeNode *res = new TreeNode(preorder[index++]);
+            if(lb == ub) return res;
+            int mid = um[res->val];
+            
+            res->left = solve(preorder, inorder, index, lb, mid-1);
+            res->right = solve(preorder, inorder, index, mid+1, ub);
+            
+            return res;
+
+        }
+    
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int n = preorder.size();
-        if(!n) return NULL;
-        
-        for(int i = 0; i<n; i++){
+        int index = 0;
+        um.clear();
+        for(int i = 0; i<preorder.size(); i++){
             um[inorder[i]] = i;
         }
-        int start = 0;
-        return solve(preorder,inorder,start,0,n-1);
-        
+        TreeNode *root = solve(preorder, inorder, index, 0, preorder.size()-1);
+        return root;
     }
 };
