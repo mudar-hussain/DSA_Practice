@@ -11,15 +11,15 @@
  */
 class Solution {
 public:
-    TreeNode* ArrayToBST(vector<int>& nums, int low, int high){
-        if(low>high) return nullptr;
-        int mid = low+(high-low)/2;
+    TreeNode *binary(vector<int>& nums, int low, int high){
+        if(low>high) return NULL;
+        int mid = low + (high-low)/2;
         TreeNode *root = new TreeNode(nums[mid]);
-        root->left = ArrayToBST(nums, low, mid-1);
-        root->right = ArrayToBST(nums, mid+1, high);
+        root->left = binary(nums, low, mid-1);
+        root->right = binary(nums, mid+1, high);
         return root;
     }
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return ArrayToBST(nums, 0, nums.size()-1);
+        return binary(nums, 0, nums.size()-1);
     }
 };
