@@ -11,26 +11,31 @@
  */
 class Solution {
 public:
-    int nextgreater(vector<int> arr, int l, int r){
-        for(int i = l; i<=r; i++){
-            if(arr[i]>arr[l]) return i;
-        }
-        
-        return r+1;
-    }
-    TreeNode* preConstruct(vector<int> preorder, int l, int r){
-        
-        if(l>r) return NULL;
-        TreeNode* root = new TreeNode(preorder[l]);
-        int g = nextgreater(preorder, l, r);
-        cout<<g;
-        root->left = preConstruct(preorder, l+1, g-1);
-        root->right = preConstruct(preorder, g, r);
+    TreeNode* bst(vector<int>& preorder, int maxi, int mini, int &i){
+        if(i >= preorder.size()) return NULL;
+        if(preorder[i]<mini || preorder[i]>maxi) return NULL;
+        TreeNode *root = new TreeNode(preorder[i]);
+        i++;
+        root->left = bst(preorder, root->val, mini, i);
+        root->right = bst(preorder, maxi, root->val, i);
         
         return root;
     }
     TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int mini = INT_MIN;
+        int maxi = INT_MAX;
+        int i = 0;
         
-        return preConstruct(preorder, 0, preorder.size()-1);
+        return bst(preorder, maxi, mini, i);
+        
     }
 };
+
+
+
+
+
+
+
+
+
