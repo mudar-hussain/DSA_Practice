@@ -11,18 +11,36 @@
  */
 class Solution {
 public:
+    //2nd approach (Morris)
     void flatten(TreeNode* root) {
-        if(root == NULL) return ;
-        while(root->left == NULL && root->right != NULL)
-            root = root->right;
-        
-        TreeNode *next = root->right;
         TreeNode *curr = root;
-        curr->right = curr->left;
-        curr->left = NULL;
-        while(curr->right) 
+        while(curr != NULL){
+            if(curr->left != NULL){
+                TreeNode *pre = curr->left;
+                while(pre->right)
+                    pre = pre->right;
+                pre->right = curr->right;
+                curr->right = curr->left;
+                curr->left = NULL;
+            }
             curr = curr->right;
-        curr->right = next;
-        flatten(root->right);
+        }
+    
     }
+    
+    //1st Approach (BruteForce)
+//     void flatten(TreeNode* root) {
+//         if(root == NULL) return ;
+//         while(root->left == NULL && root->right != NULL)
+//             root = root->right;
+        
+//         TreeNode *next = root->right;
+//         TreeNode *curr = root;
+//         curr->right = curr->left;
+//         curr->left = NULL;
+//         while(curr->right) 
+//             curr = curr->right;
+//         curr->right = next;
+//         flatten(root->right);
+//     }
 };
