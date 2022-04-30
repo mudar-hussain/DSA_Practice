@@ -10,10 +10,23 @@
  * };
  */
 class Solution {
+    set<int> s;
 public:
-    //2nd Approach
+    //3rd Arroach (SET)
+    bool findTarget(TreeNode* root, int k) {
+        if(root == NULL) return false;
+        if(s.count(k-root->val)) return true;
+        s.insert(root->val);
+        return findTarget(root->left, k) || findTarget(root->right, k);
+        
+    }
+    
+    
+    
+    
+    //2nd Approach (inorder)
     // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//     bool  dfs(TreeNode *root, int k, int cnt){
+//     bool  dfs_findTarget(TreeNode *root, int k, int cnt){
 //         if(k == 0) return true;
         
 //         if(root == NULL || cnt == 2) return false;
@@ -22,29 +35,32 @@ public:
 //     }
     
    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    void inorder(TreeNode *root, vector<int> &v){
-        if(root == NULL) return;
-        inorder(root->left, v);
-        v.push_back(root->val);
-        inorder(root->right, v);
-    }
-    bool findTarget(TreeNode* root, int k) {
-        if(root == NULL) return false;
-        vector<int> v;
-        inorder(root, v);
-        int l = 0, r = v.size()-1;
-        while(l<r){
-            if(v[l]+v[r] == k) 
-                return true;
-            else if(v[l]+v[r] < k)
-                l++;
-            else 
-                r--;
-        }
-        return false;
+//     void inorder(TreeNode *root, vector<int> &v){
+//         if(root == NULL) return;
+//         inorder(root->left, v);
+//         v.push_back(root->val);
+//         inorder(root->right, v);
+//     }
+//     bool findTarget(TreeNode* root, int k) {
+//         if(root == NULL) return false;
+//         vector<int> v;
+//         inorder(root, v);
+//         int l = 0, r = v.size()-1;
+//         while(l<r){
+//             if(v[l]+v[r] == k) 
+//                 return true;
+//             else if(v[l]+v[r] < k)
+//                 l++;
+//             else 
+//                 r--;
+//         }
+//         return false;
         
-    }
-    //1st Approach
+//     }
+    
+    
+    
+    //1st Approach (stack)
 //     void st(TreeNode *root, stack<TreeNode *> &s, int direction){
 //         if(!root) return;
 //         s.push(root);
