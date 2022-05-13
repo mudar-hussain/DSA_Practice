@@ -1,80 +1,65 @@
-//2nd Approach (BFS)
-
 class Solution {
 public:
-    
-    bool canFinish(int n, vector<vector<int>>& p) {
-        vector<vector<int>> adj(n);
-        vector<int> inDeg(n,0);
-        for(auto i: p){
-            adj[i[1]].push_back(i[0]);
-            inDeg[i[0]]++;
-        }
-        
-        int ans = 0;
-        queue<int> q;
-        
-        for(int i = 0; i<n; i++){
-            if(inDeg[i] == 0){
-                q.push(i);
+    //2nd Approach (Graph coloring 0=unvisited, 1=processed, 2=processing)
+    bool isCyclic(vector<vector<int>> &adj, vector<int> &vis, int curr){
+        if(vis[curr] == 2) 
+            return true;
+        vis[curr] = 2;
+        for(int j: adj[curr]){
+            if(vis[j] != 1){
+                if(isCyclic(adj, vis, j))
+                    return true;
             }
         }
+        vis[curr] = 1;
+        return false;
         
-        while(!q.empty()){
-            int curr = q.front();
-            q.pop();
-            ans++;
-            
-            for(int i: adj[curr]){
-                inDeg[i]--;
-                if(inDeg[i] == 0)
-                    q.push(i);
-            }
-        }
-        
-        
-        
-        return ans == n;
     }
-};
-
-
-//1st Approach (Topological Sort - DFS)
-
-// class Solution {
+    bool canFinish(int n, vector<vector<int>>& p) {
+        vector<vector<int>> adj(n+1);
+        for(auto i: p){
+            adj[i[0]].push_back(i[1]);
+        }
+        vector<int> vis(n+1, 0);
+        for(int i = 0; i<n; i++){
+            if(vis[i] == 0){
+                if(isCyclic(adj, vis, i))
+                    return false;
+            }
+        }
+        return true;
+        
+    }
     
-//     bool isCyclic(vector<vector<int>> &adj, vector<int> &vis, int curr){
-//         if(vis[curr] == 2) return true;
-        
-//         vis[curr] = 2;
+    //1st Approach
+//     bool isCyclic_util(vector<vector<int>> &adj, vector<bool> &vis, int curr){
+//         if(vis[curr] == true) return true;
+//         vis[curr] = true;
 //         for(int i: adj[curr]){
-//             if(vis[i] != 1){
-//                 if(isCyclic(adj, vis, i))
-//                     return true;
-//             }
+//             if(isCyclic_util(adj, vis, i))
+//                 return true;
 //         }
-        
-//         vis[curr] = 1;
+//         vis[curr] = false;
 //         return false;
 //     }
     
-// public:
-    
-//     bool canFinish(int n, vector<vector<int>>& p) {
-//         vector<int> vis(n, 0);
-//         vector<vector<int>> adj(n);
-//         for(auto i: p){
-//             adj[i[0]].push_back(i[1]);
-//             // adj[i[1]].push_back(i[0]);
-//         }
-        
+//     bool isCyclic(vector<vector<int>> &adj, int n){
+//         vector<bool> vis(n+1, false);
 //         for(int i = 0; i<n; i++){
-//             if(vis[i] == 0){
-//                 if(isCyclic(adj, vis, i))
-//                     return false;
+//             vis[i] = true;
+//             for(int j: adj[i]){
+//                 if(isCyclic_util(adj, vis, j))
+//                     return true;
 //             }
+//             vis[i] = false;
 //         }
-        
-//         return true;
+//         return false;
 //     }
-// };
+//     bool canFinish(int n, vector<vector<int>>& p) {
+//         vector<vector<int>> adj(n);
+//         for(int i = 0; i<n; i++){
+//             adj[i[0]].push_back(i[1]);
+//         }
+//         return !isCyclic(adj, n);
+//     }
+};
