@@ -24,16 +24,14 @@ public:
     Node* graph(Node *node, vector<Node *> &mp){
         Node *root = new Node(node->val);
         mp[node->val] = root;
-        vector<Node*> neighbors;
         for(auto n: node->neighbors){
             if(mp[n->val] == NULL){
-                neighbors.push_back(graph(n, mp));
+                root->neighbors.push_back(graph(n, mp));
             }else{
-                neighbors.push_back(mp[n->val]);
+                root->neighbors.push_back(mp[n->val]);
             }
         }
         
-        root->neighbors = neighbors;
         
         return root;
     }
