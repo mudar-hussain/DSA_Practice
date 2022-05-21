@@ -21,30 +21,34 @@ public:
 
 class Solution {
 public:
-    Node *CG(Node *node, vector<Node *> &mp){
-        
+    Node* graph(Node *node, vector<Node *> &mp){
         Node *root = new Node(node->val);
-        mp[root->val] = (root);
-        
-        vector<Node*> vec;
-        
+        mp[node->val] = root;
+        vector<Node*> neighbors;
         for(auto n: node->neighbors){
-            if(mp[n->val] == NULL)
-                vec.push_back(CG(n, mp));
-            else
-                vec.push_back(mp[n->val]);
+            if(mp[n->val] == NULL){
+                neighbors.push_back(graph(n, mp));
+            }else{
+                neighbors.push_back(mp[n->val]);
+            }
         }
-        root->neighbors = vec;
+        
+        root->neighbors = neighbors;
+        
         return root;
     }
     Node* cloneGraph(Node* node) {
         if(node == NULL) return NULL;
-        
         vector<Node *> mp(101, NULL);
-        
-        return CG(node, mp);
+        return graph(node, mp);
     }
 };
+
+
+
+
+
+
 
 
 
