@@ -8,57 +8,33 @@ class Solution
 	public:
 	//Function to find the shortest distance of all the vertices
     //from the source vertex S.
-    // int min(vector<int> pro, vector<int> dist, int V){
-    //     int m = INT_MAX;
-    //     int m_i;
-    //     for(int i = 0; i<V; i++){
-    //         if(pro[i] == 0 && dist[i]<=m){
-    //             m = dist[i];
-    //             m_i = i;
-    //         }
-    //     }
-    //     return m_i;
-    // }
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
         // Code here
-        vector<int> dist(V+1, INT_MAX);
+        
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        pq.push({0, S});
+        
+        vector<int> dist(V, INT_MAX);
         dist[S] = 0;
-        set<pair<int, int>> s;
-        s.insert(make_pair(dist[S], S));
-        while(!s.empty()){
-            auto itr = *(s.begin());
-            int u_dist = itr.first;
-            int u = itr.second;
-            s.erase(itr);
-            for(auto it: adj[u]){
-                if(u_dist + it[1] < dist[it[0]]){
-                    dist[it[0]] = u_dist + it[1];
-                    s.insert(make_pair(dist[it[0]], it[0]));
+        
+        vector<bool> vis(V, false);
+        
+        while(!pq.empty()){
+            auto cur = pq.top();
+            pq.pop();
+            
+            vis[cur.second] = true;
+            
+            for(auto e: adj[cur.second]){
+                if(vis[e[0]] == false){
+                    if(cur.first + e[1] < dist[e[0]]){
+                        dist[e[0]] = cur.first + e[1];
+                        pq.push({dist[e[0]], e[0]});
+                    }
                 }
             }
-            
         }
-        
-        
-        
-        // vector<int> pro(V, 0);
-        // vector<int> dist(V, INT_MAX);
-        // dist[S] = 0;
-        // for(int i = 0; i<V-1; i++){
-        //     int u = min(pro, dist, V);
-        //     pro[u] = 1;
-        //     for(int j = 0; j<V; j++){
-        //         cout<<pro[j]<<" "<<adj[u][j][0]<<" ";
-        //         if(pro[j] == 0 && adj[u][j][0] != 0 && dist[u] != INT_MAX){
-        //             if(dist[u]+adj[u][j][1] < dist[j]){
-        //                 dist[j] = dist[u]+adj[u][j][1];
-        //             }
-        //             cout<<dist[j];
-        //         }
-        //     }
-            
-        // }
         return dist;
     }
 };
