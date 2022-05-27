@@ -18,6 +18,9 @@ class Solution{
         dist[S] = 0;
         for(int i = 1; i<V; i++){
             for(auto it: adj){
+                
+                // dist[it[1]] = min(dist[it[1]], dist[it[0]] + it[2]);
+                
                 if(dist[it[0]] + it[2] < dist[it[1]])
                     dist[it[1]] = dist[it[0]] + it[2];
             }
