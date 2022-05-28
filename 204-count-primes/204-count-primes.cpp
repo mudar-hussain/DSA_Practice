@@ -10,10 +10,11 @@ public:
         for(long long int i = 3; i<n; i+=2){ 
             if(prime[i]){
                 count++;
-                for(long int j = i*i ; j <n; j += i * 2)
+                for(long int j = i*i ; j < n; j += i * 2)
                     prime[j] = false;
             }
         }
+        
         return count;
     }
 };
