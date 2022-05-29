@@ -14,7 +14,7 @@ public:
         if(sum == 0){
             return true;
         }
-        if(n == -1)
+        if(n == -1 || sum < 0)
             return false;
         
         if(dp[n][sum] != -1)
@@ -36,7 +36,7 @@ public:
     //     if(sum == 0){
     //         return true;
     //     }
-    //     if(n == -1)
+    //     if(n == -1 || sum < 0)
     //         return false;
             
     //     return (dp(arr, n-1, sum-arr[n]) || dp(arr, n-1, sum));
