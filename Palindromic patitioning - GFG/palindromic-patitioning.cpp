@@ -16,6 +16,8 @@ public:
         }
         return true;
     }
+    
+    
     int solve(string &s, vector<vector<int>> &dp, int i, int j){
         if(dp[i][j] != -1)
             return dp[i][j];
@@ -26,16 +28,15 @@ public:
         
         int mn = INT_MAX;
         for(int k = i; k<j; k++){
-            if(isPalindrome(s, i, k)){
+            // if(isPalindrome(s, i, k)){
                 int temp = 1+solve(s, dp, i, k)+solve(s, dp, k+1, j);
                 mn = min(mn, temp);
-            }
+            // }
         }
         return dp[i][j] = mn;
-        
-        
-        
     }
+    
+    
     int palindromicPartition(string s)
     {
         // code here
