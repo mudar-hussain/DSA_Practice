@@ -21,7 +21,7 @@ public:
             return dp[i][j];
             
         if(i>=j || isPalindrome(s, i, j)){
-            return dp[i][j] = 0;
+            return dp[i][j] =0;
         }
         
         int mn = INT_MAX;
