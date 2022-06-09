@@ -28,10 +28,12 @@ public:
         
         int mn = INT_MAX;
         for(int k = i; k<j; k++){
-            // if(isPalindrome(s, i, k)){
-                int temp = 1+solve(s, dp, i, k)+solve(s, dp, k+1, j);
-                mn = min(mn, temp);
-            // }
+            if(dp[i][k] == -1)
+                solve(s,dp,i,k);
+            if(dp[k+1][j] == -1)
+                solve(s, dp, k+1, j);
+            // int temp = 1+solve(s, dp, i, k)+solve(s, dp, k+1, j);
+            mn = min(mn, 1 + dp[i][k] + dp[k+1][j]);
         }
         return dp[i][j] = mn;
     }
