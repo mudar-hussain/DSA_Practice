@@ -9,22 +9,24 @@ using namespace std;
 
 class Solution{
 public:
-int dp[201][201][2];
-    int solve(string &s, int i, int j, bool isTrue){
+    int dp[201][201][2];
+    int solve(string s, int i, int j, bool isTrue){
         if(i>j)
             return 1;
-        if(i == j)
+            
+        if(i == j){
             if(isTrue == true)
                 return s[i] == 'T';
             else
                 return s[i] == 'F';
-        
+        }
         if(dp[i][j][isTrue] != -1)
-            return dp[i][j][isTrue];
+            return dp[i][j][isTrue]; 
+        
             
         int ans = 0;
         
-        for(int k = i+1; k<j; k+=2){
+        for(int k = i+1; k<j; k = k+2){
             int lt = solve(s, i, k-1, true);
             int lf = solve(s, i, k-1, false);
             int rt = solve(s, k+1, j, true);
@@ -33,37 +35,36 @@ int dp[201][201][2];
             switch(s[k]){
                 case '|':{
                     if(isTrue == true)
-                        ans += lt*rt + lf*rt + lt*rf;
-                    else
+                        ans += lt*rt + lt*rf + lf*rt;
+                    else 
                         ans += lf*rf;
                     break;
                 }
                 case '&':{
                     if(isTrue == true)
                         ans += lt*rt;
-                    else
-                        ans += lf*rf + lf*rt + lt*rf;
+                    else 
+                        ans += lf*rf + lt*rf + lf*rt;
                     break;
                 }
                 case '^':{
                     if(isTrue == true)
-                        ans += lf*rt + lt*rf;
-                    else
+                        ans += lt*rf + lf*rt;
+                    else 
                         ans += lf*rf + lt*rt;
                     break;
                 }
-                
             }
         }
         
         return dp[i][j][isTrue] = ans%1003;
-            
     }
     
-    int countWays(int n, string s){
+    
+    int countWays(int N, string S){
         // code here
         memset(dp, -1, sizeof(dp));
-        return solve(s, 0, s.length()-1, true);
+        return solve(S, 0, N-1, true);
         
     }
 };
