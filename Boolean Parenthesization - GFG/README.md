@@ -1,5 +1,5 @@
 # Boolean Parenthesization
-## Hard 
+##  Hard 
 <div class="problem-statement">
                 <p></p><p><span style="font-size:18px">Given a boolean expression <strong>S</strong>&nbsp;of length <strong>N</strong> with following symbols.<br>
 Symbols<br>
