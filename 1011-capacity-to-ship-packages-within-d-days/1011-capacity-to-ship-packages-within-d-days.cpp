@@ -1,39 +1,31 @@
 class Solution {
 public:
-    bool isValid(vector<int> weights, int days, int limit){
-        int sum = 0;
-        int cnt = 1;
-        for(auto w: weights){
-            sum += w;
-            if(sum>limit){
-                cnt++;
-                sum = w;
-                if(cnt>days) return false;
+    bool isFeasible(vector<int>& w, int capacity, int d){
+        int days = 1, t = 0;
+        for(int i: w){
+            t += i;
+            if(t>capacity){
+                t = i;
+                days++;
+                if(days > d)
+                    return false;
             }
         }
         return true;
     }
-    int shipWithinDays(vector<int>& weights, int days) {
-        int n = weights.size();
-        int total_weight = 0;
-        int max_weight = INT_MIN;
-        for(auto w:weights) {
-            total_weight += w;
-            max_weight = max(max_weight, w);
+    int shipWithinDays(vector<int>& w, int d) {
+        int left = 0, right = 0;
+        for(int i: w){
+            left = max(left, i);
+            right += i;
         }
-        
-        int low = max_weight, high = total_weight;
-        int ans = -1;
-        
-        while(low<=high){
-            int mid = low+(high-low)/2;
-            if(isValid(weights, days, mid)){
-                ans = mid;
-                high = mid-1;
-            }else{
-                low = mid+1;
-            }
+        while(left<right){
+            int mid = left + (right - left)/2;
+            if(isFeasible(w, mid, d))
+                right = mid;
+            else
+                left = mid+1;
         }
-        return ans;
+        return left;
     }
 };
