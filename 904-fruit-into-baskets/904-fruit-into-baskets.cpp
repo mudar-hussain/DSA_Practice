@@ -13,8 +13,8 @@ public:
             if(mp.size()<=2)
                 j++;
             else if(mp.size()>2){
-                count--;
                 mp[fruits[i]]--;
+                count--;
                 if(mp[fruits[i]] == 0)
                     mp.erase(fruits[i]);
                 i++;
