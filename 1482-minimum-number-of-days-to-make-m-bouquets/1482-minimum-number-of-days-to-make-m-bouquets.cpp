@@ -19,10 +19,11 @@ public:
         return false;
     }
     int minDays(vector<int>& b, int m, int k) {
-        if(b.size()<m*k) return -1;
+        if(b.size() < m*k) return -1;
         
-        int left = 1, right = 0;
+        int left = INT_MAX, right = 0;
         for(int i: b){
+            left = min(left, i);
             right = max(right, i);
         }
         while(left < right){
