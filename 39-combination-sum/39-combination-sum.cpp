@@ -2,13 +2,13 @@ class Solution {
 public:
     //2nd Approach
     void solve(vector<int> nums,int ind, int target, vector<int> curr, vector<vector<int>>& ans){
-        
         if(target==0) {
             ans.push_back(curr);
             return;
         }
-        
-        for(int i = ind; i<nums.size() && target>=nums[i]; i++){
+        if(target < 0)
+            return;
+        for(int i = ind; i<nums.size() && target >= nums[i]; i++){
             if(i>ind && nums[i] == nums[i-1]) continue;
             curr.push_back(nums[i]);
             solve(nums, i, target-nums[i], curr, ans);
@@ -19,7 +19,6 @@ public:
         vector<vector<int>> ans;
         vector<int> curr;
         sort(candidates.begin(), candidates.end());
-        
         solve(candidates, 0, target, curr, ans);
         return ans;
     }
