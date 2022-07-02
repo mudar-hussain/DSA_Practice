@@ -3,37 +3,40 @@ class Solution {
 public:
     //2nd Approach (Center)
     
-    string helper(string s, int i, int j){
-        if(i<0) return s.substr(0,j-i-1);
-        else if(j==s.length()) return s.substr(i+1,j-i-1);
+    string helper(string &s, int i, int j){
+        if(i<0)
+            return s.substr(0, j-i-1);
+        if(j == s.length())
+            return s.substr(i+1, j-i-1);
         
-        if(s[i] != s[j]) return s.substr(i+1,j-i-1);
+        if(s[i] != s[j])
+            return s.substr(i+1, j-i-1);
         
-        return  helper(s, i-1, j+1);;
+        return helper(s, i-1, j+1);
     }
     string longestPalindrome(string s) {
         int n = s.length();
         int ans_length = 1;
-        string ans = s.substr(0,1);
+        string ans = s.substr(0, 1);
+        
         for(int i = 1; i<n; i++){
-            if(s[i] == s[i-1]){
+            if(s[i] == s[i-1]){         //Even length
                 string temp = helper(s, i-1, i);
                 if(ans_length < temp.length()){
                     ans_length = temp.length();
                     ans = temp;
                 }
             }
-            // if(ans_length == s.length() || ans_length == s.length()-1) return ans;
-            if(i<n-1 && s[i-1] == s[i+1]){
+            
+             if(i<n-1 && s[i-1] == s[i+1]){
                 string temp = helper(s, i-1, i+1);
                 if(ans_length < temp.length()){
                     ans_length = temp.length();
                     ans = temp;
                 }
             }
-            
-            if(ans_length == s.length()) return ans;
-            if(ans_length == s.length()-1 && i>=n/2) return ans;
+            if(ans_length == n)    break;
+            if(ans_length == n-1 && i>=n/2) break;
             
         }
         return ans;
