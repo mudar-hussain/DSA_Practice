@@ -13,8 +13,16 @@ class Solution
             int max = INT_MAX;
             int ans = 0;
             for(int i = 0; i<N; i++){
-                int index = lower_bound(Mat[i].begin(), Mat[i].end(), 1)-Mat[i].begin();
-                if(max > index){
+                int index = -1, l = 0, h = M-1;
+                while(l<=h){
+                    int mid = l + (h-l)/2;
+                    if(Mat[i][mid] == 1){
+                        index = mid;
+                        h = mid-1;
+                    }else
+                        l = mid+1;
+                }
+                if(index != -1 && max > index){
                     max = index;
                     ans = i;
                 }
