@@ -1,20 +1,35 @@
 class Solution {
 public:
+    //3rd Approach
+     int maxProduct(vector<int>& nums) {
+         int n = nums.size();
+         int ma = nums[0], mi = nums[0];
+         int max_pro = nums[0];
+         for(int i = 1; i<n; i++){
+             if(nums[i] < 0)
+                 swap(ma, mi);
+             ma = max(nums[i], ma * nums[i]);
+             mi = min(nums[i], mi * nums[i]);
+             max_pro = max({max_pro, ma, mi});
+         }
+         return max_pro;
+     }
+    
     //2nd Approach
-    int maxProduct(vector<int>& nums) {
-        int n = nums.size(); 
-        int ans = nums[0], prod1 = nums[0], prod2 = nums[0];
-        for(int i = 1; i<n; i++){
-            int temp = max({nums[i], nums[i]*prod1, nums[i]*prod2});
-            prod2 = min({nums[i], nums[i]*prod1, nums[i]*prod2});
-            prod1 = temp;
+//     int maxProduct(vector<int>& nums) {
+//         int n = nums.size(); 
+//         int ans = nums[0], prod1 = nums[0], prod2 = nums[0];
+//         for(int i = 1; i<n; i++){
+//             int temp = max({nums[i], nums[i]*prod1, nums[i]*prod2});
+//             prod2 = min({nums[i], nums[i]*prod1, nums[i]*prod2});
+//             prod1 = temp;
             
-            ans = max(ans, prod1);
+//             ans = max(ans, prod1);
             
-        }
-        return ans;
+//         }
+//         return ans;
         
-    }
+    // }
 
     //1st Approach
     // int maxProduct(vector<int>& nums) {
