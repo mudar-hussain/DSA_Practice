@@ -1,9 +1,12 @@
 class Solution {
+    
 public:
+    
+    bool v[500001];
     //Approach 2
     int firstMissingPositive(vector<int>& nums) {
         int n = nums.size();
-        vector<bool> v(n+1, false);
+        memset(v, false, sizeof(v));
         for(int i = 0; i<n; i++){
             if(nums[i] > 0 && nums[i]<=n)
                 v[nums[i]] = true;
