@@ -5,10 +5,12 @@ public:
         for(int j = 0; j<nums.size(); j++){
             if(nums[j] == 0)
                 continue;
-            nums[i++] = nums[j];
+            nums[i] = nums[j];
+            i++;
         }
         while(i<nums.size()){
-            nums[i++] = 0;
+            nums[i] = 0;
+            i++;
         }
     }
 };
