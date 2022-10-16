@@ -8,10 +8,10 @@ public:
         while(low<high){
             int mid = low + (high-low)/2;
             mini = min({mini, nums[low], nums[mid], nums[high]});
-            if(nums[mid]>nums[high])
+            if(nums[mid]>nums[low])
                 low = mid+1;
             else
-                high = mid;
+                high = mid-1;
         }
         return mini;
     }
