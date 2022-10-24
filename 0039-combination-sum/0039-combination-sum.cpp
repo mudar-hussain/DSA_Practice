@@ -7,16 +7,16 @@ public:
         }
         if(idx>=nums.size())
             return;
-        
+        if(nums[idx]>target)
+            return;
         solve(nums, ans, target, temp, idx+1);
-        if(nums[idx]<=target){
-            temp.push_back(nums[idx]);
-            solve(nums, ans, target-nums[idx], temp, idx);
-        }
+        temp.push_back(nums[idx]);
+        solve(nums, ans, target-nums[idx], temp, idx);
             
         
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
         vector<vector<int>> ans;
         vector<int> temp;
         solve(candidates, ans, target, temp, 0);
