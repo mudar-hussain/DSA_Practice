@@ -5,15 +5,14 @@ public:
             ans.push_back(temp);
             return;
         }
-        if(idx>=nums.size())
-            return;
-        if(nums[idx]>target)
-            return;
-        solve(nums, ans, target, temp, idx+1);
-        temp.push_back(nums[idx]);
-        solve(nums, ans, target-nums[idx], temp, idx);
+        for(int i = idx; i<nums.size(); i++){
+            if(nums[i]>target)
+                break;
+            temp.push_back(nums[i]);
+            solve(nums, ans, target-nums[i], temp, i);
+            temp.pop_back();
+        }
             
-        
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         sort(candidates.begin(), candidates.end());
