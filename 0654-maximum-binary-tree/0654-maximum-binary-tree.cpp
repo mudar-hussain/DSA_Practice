@@ -11,10 +11,7 @@
  */
 class Solution {
 public:
-    TreeNode* solve(vector<int>& nums, int s, int e) {
-        if(e-s < 0)
-            return NULL;
-        
+    int maxi(vector<int>& nums, int s, int e){
         int maxi = INT_MIN;
         int maxIdx = -1;
         for(int i = s; i<=e; i++){
@@ -23,6 +20,14 @@ public:
                 maxIdx = i;
             }
         }
+        
+        return maxIdx;
+    }
+    TreeNode* solve(vector<int>& nums, int s, int e) {
+        if(e-s < 0)
+            return NULL;
+        int maxIdx = maxi(nums, s, e);
+        
         if(maxIdx == -1)
             return NULL;
         TreeNode *root = new TreeNode(nums[maxIdx]);
