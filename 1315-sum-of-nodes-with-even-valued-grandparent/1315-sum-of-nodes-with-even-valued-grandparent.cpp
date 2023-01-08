@@ -11,32 +11,25 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode* root, unordered_map<int, int> um, int level){
-        if(root == NULL){
-            return 0;
-        }
-        
-        if(root->val % 2 == 0){
-            um[level] = 1;
-        }else
-            um[level] = -1;
-        
-        um[level-2]--;
-        
-        int l = dfs(root->left, um, level+1);
-        int r = dfs(root->right, um, level+1);
-        
-        if(um[level-2]==0){
-            return root->val + l + r;
-        }else{
-            return l + r;
-        }
-        
-        
-    }
+    int sum = 0;
     int sumEvenGrandparent(TreeNode* root) {
-        unordered_map<int, int> um;
-        return dfs(root, um, 0);
+        if(root == NULL)
+            return 0;
+        if(root->val % 2 == 0){
+            if(root->left){
+                if(root->left->left) sum += root->left->left->val;
+                if(root->left->right) sum += root->left->right->val;
+            }
+            if(root->right){
+                if(root->right->left) sum += root->right->left->val;
+                if(root->right->right) sum += root->right->right->val;
+                
+            }
+        }
         
+        sumEvenGrandparent(root->left);
+        sumEvenGrandparent(root->right);
+        
+        return sum;
     }
 };
