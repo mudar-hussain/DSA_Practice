@@ -2,32 +2,22 @@ class Solution {
 public:
     int garbageCollection(vector<string>& garbage, vector<int>& travel) {
         int n = garbage.size();
-        int pIdx = -1;
-        int gIdx = -1;
-        int mIdx = -1;
         int time = 0;
+        unordered_map<char, int> lastIdx;
         
         for(int i = 0; i<n; i++){
             for(char c: garbage[i]){
                 time++;
-                if(c == 'P'){
-                    pIdx = i;
-                }else if(c == 'G'){
-                    gIdx = i;
-                }else if(c == 'M'){
-                    mIdx = i;
-                }
+                lastIdx[c] = i-1;
             }
         }
+        for(int i = 1; i<n-1; i++){
+            travel[i] += travel[i-1];
+        }
         
-        for(int i = 0; i<n-1; i++){
-            if(i<pIdx)
-                time += travel[i];
-            if(i<gIdx)
-                time += travel[i];
-            if(i<mIdx)
-                time += travel[i];
-            
+        for(auto i: lastIdx){
+            if(i.second>=0)
+                time += travel[i.second];
         }
         
         return time;
