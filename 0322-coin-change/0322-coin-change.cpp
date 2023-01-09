@@ -1,29 +1,21 @@
 class Solution {
 public:
-    int dp[13][10001];
-    int solve(vector<int> &coins, int amount, int i){
-        if(i==coins.size()-1){
-            if(amount % coins[i] == 0)
-                return amount/coins[i];
-            else
-                return 1e9;
-        }
-        
-        
-        if(dp[i][amount] != -1)
-            return dp[i][amount];
-        
-        int notPick = solve(coins, amount, i+1);
-        int pick = coins[i]<=amount? 1+solve(coins, amount-coins[i], i): 1e9;
-        
-        return dp[i][amount] = min(pick, notPick);
-        
-    }
     int coinChange(vector<int>& coins, int amount) {
-        memset(dp, -1, sizeof(dp));
+        int n = coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount + 1, 0));
         
-        int ans = solve(coins, amount, 0);
-        
-        return ans == 1e9 ? -1:ans;
+        for(int t=0; t<=amount; t++) {
+            dp[0][t] = t % coins[0] == 0 ? t / coins[0] : 1e9;
+        }
+
+        for(int i=1; i<n; i++) {
+            for(int t=0; t<=amount; t++) {
+                int notPick = 0 + dp[i - 1][t];
+                int pick = coins[i] <= t ? 1 + dp[i][t - coins[i]] : 1e9;
+
+                dp[i][t] = min(pick, notPick);
+            }
+        }
+        return dp[n - 1][amount] == 1e9 ? -1 : dp[n - 1][amount];
     }
 };
