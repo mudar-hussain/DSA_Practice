@@ -1,23 +1,46 @@
 class Solution {
 public:
+    vector<int> headChar;
+    
+    int find(int x){
+        if(headChar[x] == -1)
+            return x;
+        
+        return headChar[x] = find(headChar[x]);
+    }
+    
+    void Union(int x, int y){
+        int parentX = find(x);
+        int parentY = find(y);
+        
+        if(parentX == parentY)
+            return;
+        
+        headChar[max(parentX, parentY)] = min(parentX, parentY);
+    }
     string smallestEquivalentString(string s1, string s2, string baseStr) {
-        int n = s1.length();
-        char map[26];
-        for(int i = 0; i<26; i++){
-            map[i] = i + 'a';
+        headChar.resize(26, -1);
+        for(int i = 0; i<s1.size(); i++){
+            Union(s1[i]-'a', s2[i]-'a');    //create groups
         }
-        for(int i = 0; i<n; i++){
-            int replace = max(map[s1[i]-'a'], map[s2[i]-'a']);
-            int put = min(map[s1[i]-'a'], map[s2[i]-'a']);
-            
-            for(int i = 0; i<26; i++){
-                if(map[i] == replace)
-                    map[i] = put;
-            }
-        }
+        
         for(int i = 0; i<baseStr.length(); i++){
-            baseStr[i] = map[baseStr[i]-'a'];
+            baseStr[i] = find(baseStr[i] - 'a')+'a';
         }
+        
         return baseStr;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
