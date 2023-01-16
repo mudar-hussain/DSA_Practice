@@ -2,20 +2,22 @@ class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
-        vector<vector<int>> dp(n, vector<int>(amount + 1, 0));
+        vector<int> dp(amount+1, 0);
+        vector<int> prev(amount+1, 0);
         
-        for(int t=0; t<=amount; t++) {
-            dp[0][t] = t % coins[0] == 0 ? t / coins[0] : 1e9;
+        for(int i = 0; i<=amount; i++){
+            prev[i] = i%coins[0] == 0? i/coins[0]:1e9;
         }
-
-        for(int i=1; i<n; i++) {
-            for(int t=0; t<=amount; t++) {
-                int notPick = 0 + dp[i - 1][t];
-                int pick = coins[i] <= t ? 1 + dp[i][t - coins[i]] : 1e9;
-
-                dp[i][t] = min(pick, notPick);
+        
+        for(int i = 1;i<n; i++) {
+            for(int j = 0; j<=amount; j++){
+                int pick = 0 + prev[j];
+                int notPick = j>=coins[i]? 1 + dp[j-coins[i]] : 1e9;
+                
+                dp[j] = min(pick, notPick);
             }
+            prev = dp;
         }
-        return dp[n - 1][amount] == 1e9 ? -1 : dp[n - 1][amount];
+        return prev[amount] == 1e9? -1: prev[amount];
     }
 };
