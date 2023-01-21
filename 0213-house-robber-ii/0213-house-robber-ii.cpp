@@ -1,14 +1,20 @@
 class Solution {
 public:
-    int solve(vector<int> & nums, int l, int r){
-        int dp[r+1];
-        dp[l] = 0;
-        dp[l+1] = nums[l];
-        for(int i = l+2; i<=r; i++){
-            dp[i] = max(dp[i-1], dp[i-2]+nums[i-1]);
-        }
+    int dp[101];
+    int solve(vector<int> &nums, int idx, int &n){
+        if(idx>=n)
+            return 0;
         
-        return dp[r];
+        if(dp[idx] != -1)
+            return dp[idx];
+        
+        
+        return dp[idx] = max(solve(nums, idx+1, n), solve(nums, idx+2, n)+nums[idx]);
+    }
+    int help(vector<int>& nums, int i, int n) {
+        
+        memset(dp, -1, sizeof(dp));
+        return solve(nums, i, n);
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
@@ -19,7 +25,7 @@ public:
         else if(n == 3)
             return max({nums[0],nums[1], nums[2]});
         
-        return max(solve(nums, 0, n-1), solve(nums, 1, n));
+        return max(help(nums, 0, n-1), help(nums, 1, n));
         
     }
 };
