@@ -1,24 +1,34 @@
 class Solution {
 public:
-        int dp[301];
-    bool solve(string &s, unordered_set<string> &st, int idx ){
-        if(idx == s.length()){
-            return dp[idx] = true;
-        }
+    int n;
+    int dp[301];
+    
+    bool dfs(string &s, vector<string>& wordDict, int idx){
+        if(idx >= n)
+            return true;
         if(dp[idx] != -1)
             return dp[idx];
-        for(int i = idx; i<=s.length(); i++){
-            if(st.find(s.substr(idx, i-idx+1)) != st.end())
-                if(solve(s, st, i+1))
-                    return dp[idx] = true;
+        
+        bool ans = false;
+        string newWord = "";
+        for(auto word: wordDict){
+            int sz = word.size();
+            if(sz > n-idx)
+                continue;
+            newWord = s.substr(idx, sz);
+            if(newWord == word)
+                ans |= dfs(s, wordDict, idx+sz);
+            
+            dp[idx] = ans;
+            if(ans)
+                return ans;
         }
         return dp[idx] = false;
     }
+    
     bool wordBreak(string s, vector<string>& wordDict) {
-        unordered_set<string> st;
-        for(auto i: wordDict)
-            st.insert(i);
+        n = s.length();
         memset(dp, -1, sizeof(dp));
-        return solve(s, st, 0);
+        return dfs(s, wordDict, 0);
     }
 };
