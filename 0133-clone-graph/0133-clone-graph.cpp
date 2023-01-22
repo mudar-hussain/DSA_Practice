@@ -21,51 +21,29 @@ public:
 
 class Solution {
 public:
-    Node* createGraph(Node* node, unordered_map<int, Node*>& um){
-        Node *root = new Node(node->val);
-        um[node->val] = root;
+    
+    Node* solve(Node* root, unordered_map<Node*, Node*> &um){
+        if(root == NULL)
+            return root;
         
-        for(auto i: node->neighbors){
-            if(um[i->val] == NULL)
-                root->neighbors.push_back(createGraph(i, um));
+        Node *node = new Node(root->val);
+        um[root] = node;
+        vector<Node*> neighbors;
+        for(auto i: root->neighbors){
+            if(um.find(i) != um.end())
+                neighbors.push_back(um[i]);
             else
-                root->neighbors.push_back(um[i->val]);
-                
+                neighbors.push_back(solve(i, um));
         }
-        return root;
+        
+        node->neighbors = neighbors;
+        return node;
     }
+    
     Node* cloneGraph(Node* node) {
         if(node == NULL)
-            return NULL;
-        unordered_map<int, Node*> um;
-        return createGraph(node, um);
+            return node;
+        unordered_map<Node*, Node*> um;
+        return solve(node, um);
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
