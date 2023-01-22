@@ -9,7 +9,7 @@ public:
         return true;
     }
     
-    void dfs(string &s, vector<string> v, int idx){
+    void dfs(string &s, vector<string> &v, int idx){
         if(idx >= s.length()){
             ans.push_back(v);
             return;
