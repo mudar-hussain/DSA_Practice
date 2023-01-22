@@ -1,32 +1,35 @@
 class Solution {
 public:
-    vector<vector<string>> ans;
-    bool isPalindrome(string &s, int i, int j){
-        while(i<j){
-            if(s[i++] != s[j--])
-                return false;
-        }
-        return true;
-    }
-    
-    void dfs(string &s, vector<string> &v, int idx){
-        if(idx >= s.length()){
-            ans.push_back(v);
-            return;
-        }
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> result;
+        vector<string> curr;
+        DFS(s, 0, curr, result);
         
-        for(int i = idx; i<s.length(); i++){
-            if(isPalindrome(s, idx, i)){
-                v.push_back(s.substr(idx, i - idx + 1));
-                dfs(s, v, i+1);
-                v.pop_back();
+        return result;
+    }
+    void DFS(const string& s, int start, vector<string>& curr, vector<vector<string>>& result) {
+        if (s.size() == start) {
+           result.push_back(curr);
+           return;
+        }
+
+        for (int i = start; i < s.size(); i++) {
+            if (IsPalindrome(s, start, i)) {
+                curr.push_back(s.substr(start, i - start + 1));
+                DFS(s, i + 1, curr, result);
+                curr.pop_back();
             }
         }
+        return;
     }
-    
-    vector<vector<string>> partition(string s) {
-        vector<string> v;
-        dfs(s, v, 0);
-        return ans;
+    bool IsPalindrome(const string& s, int a, int b) {
+        while (a < b) {
+            if (s[a] != s[b]) {
+                return false;
+            }
+            a++;
+            b--;
+        }
+        return true;
     }
 };
