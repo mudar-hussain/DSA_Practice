@@ -1,30 +1,37 @@
 class Solution {
 public:
-    bool canFinish(int n, vector<vector<int>>& p) {
-        int inDeg[n+1];
-        memset(inDeg, 0, sizeof(inDeg));
-        int ans = 0;
-        vector<vector<int>> adj(n);
-        for(auto i: p){
-            adj[i[1]].push_back(i[0]);
-            inDeg[i[0]]++;
+    
+    bool isCycle(vector<vector<int>> &adj, vector<int> &vis, int idx){
+        if(vis[idx] == 2)
+            return true;
+        vis[idx] = 2;
+        
+        for(int i: adj[idx]){
+            if(vis[i] != 1)
+                if(isCycle(adj, vis, i))
+                    return true;
+        }
+        vis[idx] = 1;
+        return false;
+    }
+    
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(numCourses);
+        for(auto e: prerequisites){
+            adj[e[0]].push_back(e[1]);
+        }
+        vector<int> vis(numCourses, 0);
+        
+        for(int i = 0; i<numCourses; i++){
+            if(vis[i] == 0)
+                if(isCycle(adj, vis, i))
+                    return false;
         }
         
-        queue<int> q;
-        for(int i = 0; i<n; i++){
-            if(inDeg[i] == 0)
-                q.push(i);
-        }
-        while(!q.empty()){
-            int temp = q.front();
-            q.pop();
-            ans++;
-            for(int i: adj[temp]){
-                inDeg[i]--;
-                if(inDeg[i] == 0)
-                    q.push(i);
-            }
-        }
-        return ans == n;
+        return true;
+        
+        
+        
+        
     }
 };
