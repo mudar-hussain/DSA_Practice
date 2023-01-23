@@ -1,64 +1,48 @@
 class Solution {
 public:
+    int n, m;
+    int dx[4] = {1, 0, -1, 0};
+    int dy[4] = {0, 1, 0, -1};
     
-    bool solve(vector<vector<int>> &heights, vector<vector<bool>> &ocean, int i, int j){
-        if(i<0 || i>=heights.size() || j<0 || j>=heights[0].size() || heights[i][j] == INT_MAX)
-            return false;
+    void solve(vector<vector<int>> &heights,vector<vector<int>> &ocean, int i, int j, int prev){
+        if(i<0 || j<0 || i>=n || j>=m || ocean[i][j] == 1 || heights[i][j] < prev)
+            return;
         
-        if(ocean[i][j] == true)
-            return true;
-        
-        int k = heights[i][j];
-        heights[i][j] = INT_MAX;
-        
-        bool ans = false;
-        
-        if(i>0 && heights[i-1][j] <= k)
-            ans = ans || solve(heights, ocean, i-1, j);
-        
-        
-        if(i<heights.size()-1 && heights[i+1][j] <= k)
-            ans = ans || solve(heights, ocean, i+1, j);
-        
-        if(j>0 && heights[i][j-1] <= k)
-            ans = ans || solve(heights, ocean, i, j-1);
-        
-        if(j<heights[0].size()-1 && heights[i][j+1] <= k)
-            ans = ans || solve(heights, ocean, i, j+1);
-        
-        
-        ocean[i][j] = ans;
-        heights[i][j] = k;
-        return ans;
-        
-        
-        
+        ocean[i][j] = 1;
+        int x, y;
+        for(int k = 0; k<4; k++){
+            x = i+dx[k];
+            y = j+dy[k];
+            solve(heights, ocean, x, y, heights[i][j]);
+        }
     }
     
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-        int m = heights.size();
-        int n = heights[0].size();
-        vector<vector<bool>> p(m, vector<bool>(n, false));
-        vector<vector<bool>> a(m, vector<bool>(n, false));
-        for(int i = 0; i<m; i++){
-            p[i][0] = 1; 
-            a[i][n-1] = 1;
-        }
+        n = heights.size();
+        m = heights[0].size();
+        vector<vector<int>> ans;
+        
+        vector<vector<int>> pacific(n, vector<int>(m, 0));
+        vector<vector<int>> atlantic(n, vector<int>(m, 0));
+        
+        
         for(int i = 0; i<n; i++){
-            a[m-1][i] = 1;
-            p[0][i] = 1;
+            solve(heights, pacific, i, 0, INT_MIN);
+            solve(heights, atlantic, i, m-1, INT_MIN);  
         }
         
-        vector<vector<int>> ans;
-        for(int i = 0; i<m; i++){
-            for(int j = 0; j<n; j++){
-                if(solve(heights, p, i, j) && solve(heights, a, i, j))
-                    ans.push_back({i, j});
+        for(int j = 0; j<m; j++){
+            solve(heights, pacific, 0, j, INT_MIN);
+            solve(heights, atlantic, n-1, j, INT_MIN);       
+        }
+        
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<m; j++){
+                if(pacific[i][j]==1 && atlantic[i][j]==1)
+                    ans.push_back({i,j});
             }
         }
-        
-        
-        
         return ans;
+        
     }
 };
