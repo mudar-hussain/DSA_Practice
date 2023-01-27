@@ -1,26 +1,33 @@
 class Solution {
+    unordered_set<string> dict;
+    unordered_set<string> formed_words;
 public:
+    bool canBeFormed(string word){
+        if(formed_words.find(word) != formed_words.end())
+            return true;
+        
+        for(int i = 1; i<word.length(); i++){
+            string s1 = word.substr(0, i);
+            if(dict.find(s1) != dict.end()){
+                string s2 = word.substr(i);
+                if(dict.find(s2) != dict.end() || canBeFormed(s2)){
+                    formed_words.insert(word);
+                    return true;
+                }
+                
+            }
+        }
+        return false;
+        
+    }
     vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
         vector<string> res;
-        unordered_set<string> s;
         for(auto w: words){
-            s.insert(w);
+            dict.insert(w);
         }
         for(auto word: words){
-            int n = word.size();
-            vector<int> dp(n+1, 0);
-            dp[0] = 1;
-            for(int i = 0; i<n; i++){
-                if(!dp[i]) continue;
-                for(int j = i+1; j<=n; j++){
-                    if(j-i<n && s.find(word.substr(i, j-i)) != s.end())
-                        dp[j] = 1;
-                }
-                if(dp[n] == 1){
-                    res.push_back(word);
-                    break;
-                }
-            }
+            if(canBeFormed(word))
+                res.push_back(word);
         }
         return res;
         
