@@ -1,28 +1,36 @@
 class Solution {
+    int dx[5] = {1,0,-1,0,1};
 public:
     int maxDistance(vector<vector<int>>& grid) {
         int n = grid.size();
-        vector<pair<int, int>> ones;
-        vector<pair<int, int>> zeros;
-        for(int i = 0; i<n; i++){
-            for(int j = 0; j<n; j++){
+        queue<pair<int, int>> q;
+        for(int i=0; i<n; i++){
+            for(int j = 0; j<n;j++){
                 if(grid[i][j])
-                    ones.push_back({i,j});
-                else
-                    zeros.push_back({i,j});
+                    q.push({i,j});
             }
         }
-        if(ones.size() == 0 || zeros.size() == 0)
+        if(q.size() == 0 || q.size() == n*n)
             return -1;
-        int ans = INT_MIN;
-        for(auto z: zeros){
-            int cur = INT_MAX;
-            for(auto o: ones)
-                cur = min(cur, (abs(z.first-o.first)+abs(z.second-o.second)));
-            ans = max(ans, cur);
+        
+        int count = -1;
+        while(!q.empty()){
+            int sz = q.size();
+            count++;
+            while(sz--){
+                int i = q.front().first;
+                int j = q.front().second;
+                q.pop();
+                for(int k = 0; k<4; k++){
+                    int x = i+dx[k];
+                    int y = j+dx[k+1];
+                    if(x>=0 && x<n && y>=0 && y<n && grid[x][y] == 0){
+                        grid[x][y] = 1;
+                        q.push({x,y});
+                    }
+                }
+            }
         }
-        
-        return ans==INT_MAX? -1: ans;
-        
+        return count;
     }
 };
