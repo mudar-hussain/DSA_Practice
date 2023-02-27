@@ -45,13 +45,16 @@ class Solution {
             return root;
         }
         
-        int subSize = n/2;
-        root->topLeft = solve(grid, subSize, i, j);
-        root->topRight = solve(grid, subSize, i, j+subSize);
-        root->bottomLeft = solve(grid, subSize, i+subSize, j);
-        root->bottomRight = solve(grid, subSize, i+subSize, j+subSize);
+        root->topLeft = solve(grid, n/2, i, j);
+        root->topRight = solve(grid, n/2, i, j+n/2);
+        root->bottomLeft = solve(grid, n/2, i+n/2, j);
+        root->bottomRight = solve(grid, n/2, i+n/2, j+n/2);
         
-        bool allLeaf = (root->topLeft->isLeaf == 1 && root->topRight->isLeaf == 1 && root->bottomLeft->isLeaf == 1 && root->bottomRight->isLeaf == 1);
+        bool allLeaf = (root->topLeft->isLeaf == 1 
+                        && root->topRight->isLeaf == 1 
+                        && root->bottomLeft->isLeaf == 1 
+                        && root->bottomRight->isLeaf == 1);
+        
         bool allValEq = (root->topLeft->val == root->topRight->val 
                          && root->topRight->val == root->bottomLeft->val
                          && root->bottomLeft->val == root->bottomRight->val);
