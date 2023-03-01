@@ -1,10 +1,10 @@
 class Solution {
+    vector<int> v;
     void merge(vector<int> &nums, int l, int mid, int h){
         
         int i = l;
         int j = mid+1;
         int k = 0;
-        vector<int> v(h-l+1);
         
         while(i<=mid && j<=h){
             if(nums[i]<=nums[j]){
@@ -37,6 +37,7 @@ class Solution {
     }
 public:
     vector<int> sortArray(vector<int>& nums) {
+        v.resize(nums.size());
         mergeSort(nums, 0, nums.size()-1);
         return nums;
     }
