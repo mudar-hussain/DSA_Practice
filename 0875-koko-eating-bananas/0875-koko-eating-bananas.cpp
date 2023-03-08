@@ -1,27 +1,33 @@
 class Solution {
-public:
-    bool isFeasible(vector<int>& piles, int capacity, int h){
-        long long sum = 0;
-        for(auto i: piles){
-            if(sum +  ceil((double)i/capacity)>h)
-                return false;
-            sum += ceil((double)i/capacity);
+    bool isDoable(vector<int>& piles, int capacity, int h){
+        
+        if(capacity == 0)
+            return false;
+        
+        for(int i: piles){
+            h -= (i/capacity);
+            if(i%capacity) h--;
+            if(h<0)
+                break;
         }
-        return true;
+        return h>=0;
     }
+public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int maxi = 0;
-        for(int i: piles)
-            maxi = max(maxi, i);
-        int low = 0;
-        int high = maxi;
-        while(low<high){
-            int mid = low + (high-low)/2;
-            if(isFeasible(piles, mid, h))
-                high = mid;
-            else 
-                low = mid+1;
+        int low = 0, mid, high = 0, ans = INT_MAX;
+        for(int i: piles){
+            high = max(high, i);
         }
-        return low;
+        
+        while(low<=high){
+            mid = low + (high - low)/2;
+            if(isDoable(piles, mid, h)){
+                ans = min(ans, mid);
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+        return ans;
     }
 };
