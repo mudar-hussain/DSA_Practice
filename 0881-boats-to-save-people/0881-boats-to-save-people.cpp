@@ -9,8 +9,6 @@ public:
             if(people[low] + people[high] <= limit){
                 low++;
                 high--;
-            }else if(people[low] > people[high]){
-                low++;
             }else{
                 high--;
             }
