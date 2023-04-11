@@ -21,7 +21,7 @@ public:
         
         for(int i = 12; num>0 && i>=0; i--){
             if(num>=v[i].first){
-                ans += v[i].second;
+                ans = ans + v[i].second;
                 num -= v[i].first;
                 i++;
             }
