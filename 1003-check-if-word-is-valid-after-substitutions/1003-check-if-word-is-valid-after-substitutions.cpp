@@ -1,26 +1,13 @@
 class Solution {
 public:
     bool isValid(string s) {
-        char a,b;
-        stack<char> st;
+        int i = 0;
         for(char c: s){
-            if(c == 'c' && st.size()>=2){
-                b = st.top(), st.pop();
-                a = st.top(), st.pop();
-                if(a == 'a' && b == 'b' && c == 'c'){
-                    //Ignore
-                }else{
-                    st.push(a);
-                    st.push(b);
-                    st.push(c);
-                }
-            }else if(c == 'c'){
-                return false;
-            }else{
-                st.push(c);
+            s[i++] = c;
+            if(i>=3 && s[i - 3] == 'a' && s[i - 2] == 'b' && s[i - 1] == 'c'){
+                i -= 3;
             }
         }
-        return st.empty();
-        
+        return i == 0;
     }
 };
