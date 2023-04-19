@@ -16,18 +16,17 @@ class Solution {
         if(root == NULL){
             return 0;
         }
-        int newCount = 0;
+        
         //currCount
         if(isLeft){
             currCount += 1+zigZag(root->right, 0, currCount);
-            newCount = zigZag(root->left, 1, 0);
+            ans = max(ans, zigZag(root->left, 1, 0));
         }else{
             currCount += 1+zigZag(root->left, 1, currCount);
-            newCount = zigZag(root->right, 0, 0);   
+            ans = max(ans, zigZag(root->right, 0, 0));
         }
         
-        
-        ans = max({ans, newCount, currCount});
+        ans = max(ans, currCount);
         return currCount;
         
         
