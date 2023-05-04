@@ -7,8 +7,8 @@ public:
         int i = 0, n = senate.size();
         while (rc > 0 && dc > 0) {
             if (senate[i] == '*');
-            else if (senate[i] == 'R' && rk > 0) { rk--; senate[i] = '*'; rc--;}
-            else if (senate[i] == 'D' && dk > 0) { dk--; senate[i] = '*'; dc--;}
+            else if (senate[i] == 'R' && rk > 0) { rk--; senate[i] = '*'; rc--; }
+            else if (senate[i] == 'D' && dk > 0) { dk--; senate[i] = '*'; dc--; }
             else {senate[i] == 'R' ? dk++ : rk++;}
             i = (i+1)%n;
         }
