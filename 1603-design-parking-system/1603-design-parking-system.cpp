@@ -1,36 +1,19 @@
 class ParkingSystem {
-    int big, medium, small;
+    int park[4] = {0};
 public:
     ParkingSystem(int big, int medium, int small) {
-        this->big = big;
-        this->medium = medium;
-        this->small = small;
+        park[1] = big;
+        park[2] = medium;
+        park[3] = small;
     }
     
     bool addCar(int carType) {
-        if(carType == 1){
-            if(big){
-                big--;
-                return true;
-            }else{
-                return false;
-            }
-        }
-        else if(carType == 2){
-            if(medium){
-                medium--;
-                return true;
-            }else{
-                return false;
-            }
-        }
-        else{
-            if(small){
-                small--;
-                return true;
-            }else{
-                return false;
-            }
+        if(park[carType]){
+            park[carType]--;
+            return true;
+        }else{
+            return false;
+            
         }
     }
 };
